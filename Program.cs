@@ -8,8 +8,15 @@ namespace Enumtest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            foreach(var tab in RoleEnumHelper.GetValidTabsForRoles(new string[] { "Role1", "Role2" }))
+            Console.WriteLine("Roles tab application");
+
+            var tabs = RoleEnumHelper.GetValidTabsForRoles(new Guid[] 
+                {
+                    new Guid("12345678-9012-3456-7890-123456789012"),
+                    new Guid("12345678-9012-3456-7890-123456789013") 
+                });
+
+            foreach(var tab in tabs)
             {
                 Console.WriteLine($"Tab: {tab}");
             }

@@ -4,74 +4,46 @@ using System.Linq;
 
 namespace Enumtest.helpers
 {
-    #region Enum Role Helper
-    [Flags]
-    internal enum Roles { Empty = 0, Role1 = 1, Role2 = 2, Role3 = 4 };
+    internal enum RolesEnum { Role1, Role2, Role3 };
 
     [Flags]
     internal enum Tabs { Empty = 0, Tab1 = 1, Tab2 = 2, Tab3 = 4 };
 
     internal static class RoleEnumHelper
     {
-        internal static ICollection<string> GetValidTabsForRoles(string[] roles)
+        private static IDictionary<Guid, RolesEnum> staticRoles = new Dictionary<Guid, RolesEnum>() {
+            { new Guid("12345678-9012-3456-7890-123456789012"), RolesEnum.Role1 },
+            { new Guid("12345678-9012-3456-7890-123456789013"), RolesEnum.Role2}
+        };
+
+        internal static ICollection<string> GetValidTabsForRoles(Guid[] roles)
         {
-            var allTabsEnum = Enum.GetValues(typeof(Tabs)).Cast<Tabs>().ToList();
             ICollection<string> tabsList = new List<string>();
             Tabs tabsEnum = Tabs.Empty;
 
             foreach (var role in roles)
             {
-                if (Enum.TryParse<Roles>(role, out Roles roleEnum))
+                if (staticRoles.Any(a => a.Key == role))
                 {
-                    switch (roleEnum)
+                    switch (staticRoles.Single(s => s.Key == role).Value)
                     {
-                        case Roles.Role1:
+                        case RolesEnum.Role1:
                             tabsEnum |= Tabs.Tab1 | Tabs.Tab2;
                             break;
-                        case Roles.Role2:
+                        case RolesEnum.Role2:
                             tabsEnum |= Tabs.Tab1 | Tabs.Tab3;
                             break;
                     }
                 }
             }
 
-            tabsList = ConvertEnumToList(tabsEnum);
+            tabsList = ConvertEnumToList(tabsEnum).ToList();
 
             return tabsList;
         }
 
-        private static IList<string> ConvertEnumToList(Tabs tabs) {
-            var tabsList = new List<string>();
-
-            foreach (var tab in Enum.GetValues<Tabs>())
-            {
-                if ((tab & tabs) != 0) tabsList.Add(tab.ToString());
-            }
-
-            return tabsList;
+        private static IEnumerable<string> ConvertEnumToList(Tabs tabs) {
+            return Enum.GetValues(typeof(Tabs)).Cast<Tabs>().Where(t => (tabs & t) != 0).Select(r => r.ToString());
         }
     }
-    #endregion
-
-    #region Struct Role Helper
-    internal struct RoleStruct
-    {
-        internal const string Role1 = "l;kjsdf8";
-        internal const string Role2 = "l;kjsdf8";
-        internal const string Role3 = "l;kjsdf8";
-    }
-
-    internal static class RoleStructHelper 
-    {
-        internal static ICollection<string> GetValidTabsForRole(string[] roles)
-        {
-            foreach (var role in roles)
-            {
-                
-            }
-
-            return new List<string>();
-        }
-    }
-    #endregion
 }
