@@ -4,13 +4,14 @@ using System.Linq;
 
 namespace Enumtest.helpers
 {
+    #region Enum Role Helper
     [Flags]
     internal enum Roles { Empty = 0, Role1 = 1, Role2 = 2, Role3 = 4 };
 
     [Flags]
     internal enum Tabs { Empty = 0, Tab1 = 1, Tab2 = 2, Tab3 = 4 };
 
-    internal static class RoleHelper 
+    internal static class RoleEnumHelper
     {
         internal static ICollection<string> GetValidTabsForRoles(string[] roles)
         {
@@ -50,4 +51,25 @@ namespace Enumtest.helpers
             return tabsList;
         }
     }
+    #endregion
+
+    #region Struct Role Helper
+    internal struct RoleStruct
+    {
+        internal const string Role1 = "l;kjsdf8";
+        internal const string Role2 = "l;kjsdf8";
+        internal const string Role3 = "l;kjsdf8";
+    }
+
+    internal static class RoleStructHelper 
+    {
+        internal static ICollection<string> GetValidTabsForRole(string[] roles)
+        {
+            foreach (var role in roles)
+            {
+                
+            }
+        }
+    }
+    #endregion
 }
