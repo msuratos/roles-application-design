@@ -52,7 +52,7 @@ namespace Enumtest.helpers
             {
                 if (staticRoles.Any(a => a.Key == role))
                 {
-                    tabsEnum = GetTabsForRole(role);
+                    tabsEnum |= GetTabsForRole(role);
                 }
             }
 
