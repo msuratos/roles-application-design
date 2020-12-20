@@ -27,18 +27,17 @@ namespace Enumtest.helpers
             {
                 case RolesEnum.Role1:
                     tabsEnum |= Tabs.Tab1 | Tabs.Tab2;
-                    break;
+                    return tabsEnum;
                 case RolesEnum.Role2:
                     tabsEnum |= Tabs.Tab1 | Tabs.Tab3;
-                    break;
+                    return tabsEnum;
+                default:
+                    return tabsEnum;;
             }
-
-            return tabsEnum;
         }
 
         internal static bool CanRoleAccessTab(Guid role, Tabs tabs) {
-            //TODO: Double check this conditional logic
-            if (GetTabsForRole(role) != tabs)
+            if (!GetTabsForRole(role).HasFlag(tabs))
                 return false;
 
             return true;
