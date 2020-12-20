@@ -4,17 +4,20 @@ using System.Linq;
 
 namespace Enumtest.helpers
 {
-    internal enum RolesEnum { Role1, Role2, Role3 };
-
-    [Flags]
-    internal enum Tabs { Empty = 0, Tab1 = 1, Tab2 = 2, Tab3 = 4 };
-
     internal static class RoleEnumHelper
     {
+        [Flags]
+        private enum Tabs { Empty = 0, Tab1 = 1, Tab2 = 2, Tab3 = 4 };
+        private enum RolesEnum { Role1, Role2, Role3 };
+
         private static IDictionary<Guid, RolesEnum> staticRoles = new Dictionary<Guid, RolesEnum>() {
             { new Guid("12345678-9012-3456-7890-123456789012"), RolesEnum.Role1 },
             { new Guid("12345678-9012-3456-7890-123456789013"), RolesEnum.Role2}
         };
+
+        private static IEnumerable<string> ConvertEnumToList(Tabs tabs) {
+            return Enum.GetValues(typeof(Tabs)).Cast<Tabs>().Where(t => (tabs & t) != 0).Select(r => r.ToString());
+        }
 
         internal static ICollection<string> GetValidTabsForRoles(Guid[] roles)
         {
@@ -40,10 +43,6 @@ namespace Enumtest.helpers
             tabsList = ConvertEnumToList(tabsEnum).ToList();
 
             return tabsList;
-        }
-
-        private static IEnumerable<string> ConvertEnumToList(Tabs tabs) {
-            return Enum.GetValues(typeof(Tabs)).Cast<Tabs>().Where(t => (tabs & t) != 0).Select(r => r.ToString());
         }
     }
 }
