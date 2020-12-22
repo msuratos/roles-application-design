@@ -1,2 +1,2 @@
 # roles-application-design
-A concept test that hopes to achieve better roles application design with enums and structs
+A concept app that hopes to achieve a better role helper logic with enums as an application design.
